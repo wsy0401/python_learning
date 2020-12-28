@@ -1,8 +1,15 @@
 # --*-- coding: utf-8 --*--
 
+
+
+
+
 ######这里做的是fast integer数据的编码操作
-def fast_uint_encoder(data_decoded):
-    divident = data_decoded #被除数
+def fast_uint_encoder(data_decoded,minus):
+    if minus:
+        divident = data_decoded + 1 #被除数
+    else:
+        divident = data_decoded
     divisor = 0x80 #除数
     Quotient =divident // divisor
     Remainder = divident%divisor
@@ -26,7 +33,7 @@ def fast_uint_encoder(data_decoded):
     return result
 
 #这里做的是fast integer数据的解码操作
-def fast_uint_decoder(data_encoded):
+def fast_uint_decoder(data_encoded, minus):
     fast_data=data_encoded
     result = 0
     #int(x,base)用于把一个字符或者数字转为整形,这里的base是指x是什么进制的值
@@ -37,4 +44,9 @@ def fast_uint_decoder(data_encoded):
             temp = int(fast_data[i:i+2],16)
         result = result * 0x80 + temp
 #    print("%d" % (result - 1))
-    return result
+    if minus:
+        return result - 1
+    else:
+        return result
+
+
